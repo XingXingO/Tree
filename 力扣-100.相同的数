@@ -1,0 +1,20 @@
+//写一个函数，比较两课树是否相同
+//比较A和B是否相同 => 根节点的值是否相同  && A.left 和 B.left相同  && A.right B.right是否相同
+public class InterviewTree {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p == null && q == null) {
+            return true;
+        }
+        //因p和q不会同时为空，只有一个null一个非null才能进入条件内部
+        if(p == null || q == null) {
+            return false;
+        }
+        //下面处理都不为空的情况
+        //判断根节点是否相同
+        if(p.val != q.val) {
+            //两棵树一定不相等
+            return false;
+        }
+        return isSameTree(p.left,q.left) && isSameTree(p.right,q.right);
+    }
+}
