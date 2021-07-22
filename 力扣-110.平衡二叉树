@@ -1,0 +1,35 @@
+public class InterviewTree {
+
+    public int maxDepth(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+        if(root.left == null && root.right == null) {
+            //叶子节点深度就是1
+            return 1;
+        }
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        return 1 + (leftDepth > rightDepth ? leftDepth :rightDepth);
+    }
+
+
+    public boolean isBalanced(TreeNode root) {
+      if(root == null) {
+          //空树认为是平衡的
+          return true;
+      }
+      if(root.left == null && root.right == null) {
+          //没有子树也认为是平衡的
+          return true;
+      }
+      //看当前节点所对应的子树是否是平衡的
+      int leftDepth = maxDepth(root.left);
+      int rightDepth = maxDepth(root.right);
+      if(leftDepth - rightDepth > 1 || leftDepth - rightDepth < -1) {
+          //不是平衡的树
+          return false;
+      }
+      return isBalanced(root.left) &&isBalanced(root.right);
+    }
+}
