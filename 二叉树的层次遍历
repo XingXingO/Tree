@@ -1,0 +1,23 @@
+//利用队列实现
+public class InterviewTree {
+    public void levelOrder(TreeNode root){
+        //1、创建一个空队列并把根节点加入队列
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        //2、判断是否为空，循环取出队首元素，访问该元素并打印
+        while(!queue.isEmpty()) {
+            //取出队首元素，出队列
+            TreeNode cur = queue.poll();
+            //访问该元素
+            System.out.print(cur.val+" ");
+            //3、判断当前元素左子树，如果非空就入队列；右子树非空也入队列
+            //左右子树入队列
+            if(cur.left != null) {
+                queue.offer(cur.left);
+            }
+            if(cur.right != null) {
+                queue.offer(cur.right);
+            }
+        }
+    }
+}
