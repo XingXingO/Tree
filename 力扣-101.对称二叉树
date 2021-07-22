@@ -1,0 +1,17 @@
+public class InterviewTree {
+    public boolean isSymmetric (TreeNode t1,TreeNode t2) {  //t1左子树 t2右子树
+    if(t1 == null && t2 == null) {
+        return true;
+    }
+    if(t1 == null || t2 == null) {
+        //两者一个为空一个非空、肯定不对称
+        return false;
+    }
+    //两者都不为空，继续比较
+    if(t1.val != t2.val) {
+        //两个树根节点值不同
+        return false;
+    }
+    return isSymmetric(t1.left,t2.right) &&isSymmetric(t1.right,t2.left);
+    }
+}
