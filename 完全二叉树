@@ -1,0 +1,52 @@
+//判断一颗二叉树是不是完全二叉树    
+//解：分为两个阶段，在第一阶段，如果发现这颗树只有右子树，肯定不是完全二叉树；  这棵树只有左子树或者左右子树都没有，进入第二阶段；  进入第二阶段要保证左右都没有子树才是完全二叉树
+public class InterviewTree{
+    public boolean isCompleterTree(TreeNode root) {
+        if(root == null) {
+            return true;
+        }
+
+        boolean isSecondStep = false;
+
+        //对这棵树进行层次遍历
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()) {
+            TreeNode cur = queue.poll();
+            //针对当前节点进行访问（判断是否符合完全二叉树）
+            //TODO
+            if (!isSecondStep) {
+                //这是第一阶段
+                if (cur.left != null && cur.right != null) {
+                    //直接把这两个左右子树入队列
+                    queue.offer(cur.left);
+                    queue.offer(cur.right);
+                } else if (cur.left == null && cur.right != null) {
+                    //这种情况说明某个节点只有右子树，没有左子树，一定不是完全二叉树
+                    return false;
+                } else if (cur.left != null && cur.right == null) {
+                    //切换到第二阶段
+                    isSecondStep = true;
+                    queue.offer(cur.left);
+                } else {
+                    //当前左右子树都为空，也切换到第二阶段
+                    isSecondStep = true;
+                }
+            }
+                else {
+                //这是第二阶段
+                //要求第二阶段中都必须没有子树
+                //只要找到某个节点带子树，就说明找到了反例
+                if(cur.left != null || cur.right != null) {
+                    return false;
+            }
+          }
+        }
+        //整个树都遍历完了，也没找到反例，最终认为该树是完全二叉树
+        return true;
+    }
+}
+
+
+
+7节10分
