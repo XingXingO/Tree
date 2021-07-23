@@ -1,0 +1,42 @@
+先序中序确定一棵树
+解：1、当前节点在中序遍历结果中查找位置，根据这个位置把中序区间划分成两个部分，分别表示左右子树的中序遍历结果
+    2、index++ 只进行一次
+
+public class InterviewTree {
+
+    private int index;  //当前访问到的先序遍历中的第几个元素
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        index = 0;
+        return buildTreeHelper(preorder,inorder,0,inorder.length);  //传入先序结果，传入中序结果
+    }
+
+
+    public TreeNode buildTreeHelper(int[] preorder,int[] inorder,int left,int right) {
+        if(left >=right) {
+            //中序遍历结果为空，空树
+            return null;
+        }
+        //根据当前根节点的值创建根节点
+        TreeNode root = new TreeNode(preorder[index]);
+        //根据该节点在中序遍历结果中的位置，把inorder数组划分成两个部分
+        int pos = find(inorder,left,right,root.val);
+        index++;  //节点创建完毕，就index++准备处理下一个节点
+        //[left,pos)  表示当前root左子树的中序遍历结果
+        //[pos+1,right)  表示当前root右子树的中序遍历结果
+        root.left = buildTreeHelper(preorder,inorder,left,pos);
+        root.right = buildTreeHelper(preorder,inorder,pos+1,right);
+        return root;
+    }
+
+
+    private int find(int[] inorder,int left,int right,int toFind) {
+        for(int i = left; i < right; i++) {
+            if(inorder[i] == toFind){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
+7节1.50
