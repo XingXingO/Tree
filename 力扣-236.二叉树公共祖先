@@ -1,0 +1,36 @@
+//给定一个二叉树，找到该树中两个指定节点的最近公共祖先
+//解：假定有两个节点，p,q  p和q可能出现在三个位置，左子树、右子树、当前节点，要求p和q必须分布在这三个位置中的两个就认为这个节点是最近公共祖先。
+
+public class InterviewTree {
+    //lca表示最近公共祖先
+    private TreeNode lca = null;
+
+    public TreeNode lowestCommonAncestor(TreeNode root ,TreeNode p, TreeNode q) {
+        if(root == null) {
+            return null;
+        }
+        //findNode递归找的过程中一旦找到就把结果返回lca
+        findNode(root,p,q);
+        return lca;
+    }
+
+    //从root出发能不能找到 p 或 q ,只要找到 1 个，就返回 true ,都找不到就返回 false
+    public boolean findNode(TreeNode root,TreeNode p, TreeNode q) {
+        if(root ==  null) {
+            return false;
+        }
+        //递归按照后序遍历的方式查找，找到返回1，没找到返回0
+        int left = findNode(root.left,p,q) ? 1 : 0;
+        int right = findNode(root.right,p,q) ? 1 : 0;
+        int mid = (root == p || root ==q) ? 1 : 0;
+        if(left + right + mid == 2) {
+            //此时 p 和 q 分布在 (左子树、右子树、当前节点) 中的两个位置上
+            //相加为0：当前root不是 p 和 q 的祖先
+            //相加为1：当前root可能是 p 的祖先也可能是 q 的祖先，但一定不是最近的公共祖先
+            //相加为2：当前root 就是 p 和 q 的最近公共祖先
+            lca = root;
+        }
+        //如果三个位置之和为0表示没找到,返回false
+        return (left + right +mid) > 0;
+    }
+}
