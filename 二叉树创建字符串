@@ -1,0 +1,44 @@
+力扣-606.根据二叉树创建字符串
+/*问：采用先序遍历的方式，将一个二叉树转换成一个由括号和整数组成的字符串。
+空节点用一对空括号 “()” 表示，并省略所有不影响字符串与原始二叉树之间的一对一映射关系的空括号对
+
+解：括号省略的注意事项
+1、如果一个树左右子树都为空，就不需要把左右子树用()表示
+2、如果一个树的左子树为空，右子树非空，需要把左子树用()占位，不能省略括号
+3、如果一个树的左子树非空，右子树为空，右子树的()需要省略
+*/
+
+public class InterviewTree {
+    //sb表示最终得到的字符串结果
+    //递归过程中得到的局部结构都往 sb 追加即可
+    private StringBuilder sb = new StringBuilder();
+    public String tree2str(TreeNode t) {
+        if(t == null) {
+            //需要返回一个空字符串，而不是null
+            return "";
+        }
+        //借助helper方法递归进行先序遍历
+        helper(t);
+        return sb.toString();
+    }
+
+    private void helper(TreeNode t) {
+        if(t == null) {
+            return;
+        }
+        //访问根节点，此处的访问操作追加字符串到sb中即可
+        sb.append("(");
+        sb.append(t.val);
+        helper(t.left);
+        if(t.left == null && t.right != null)
+        {
+            //左子树为空树，右子树非空
+            //一定要加上一组（）来占位
+            sb.append("(");
+        }
+        helper(t.right);
+        sb.append(")");
+    }
+}
+
+8节2.30
