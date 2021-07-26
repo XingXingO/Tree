@@ -13,12 +13,15 @@ public class InterviewTree {
     //递归过程中得到的局部结构都往 sb 追加即可
     private StringBuilder sb = new StringBuilder();
     public String tree2str(TreeNode t) {
-        if(t == null) {
+         if(t == null) {
             //需要返回一个空字符串，而不是null
             return "";
         }
         //借助helper方法递归进行先序遍历
         helper(t);
+        //递归得到的字符串最前面和最后面的括号去掉
+        sb.deleteCharAt(0);
+        sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
 
@@ -34,7 +37,7 @@ public class InterviewTree {
         {
             //左子树为空树，右子树非空
             //一定要加上一组（）来占位
-            sb.append("(");
+            sb.append("()");
         }
         helper(t.right);
         sb.append(")");
